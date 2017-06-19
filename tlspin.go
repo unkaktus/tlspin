@@ -44,7 +44,7 @@ func Listen(network, addr, privatekey string) (net.Listener, error) {
 	return tls.Listen(network, addr, tlsConfig)
 }
 
-func Dial(network, addr, publickey string) (net.Conn, error) {
+func DialWithDialer(dialer *net.Dialer, network, addr, publickey string) (net.Conn, error) {
 	pk, err := util.DecodeKey(publickey)
 	if err != nil {
 		return nil, err
@@ -52,7 +52,7 @@ func Dial(network, addr, publickey string) (net.Conn, error) {
 	tlsConfig := &tls.Config{
 		InsecureSkipVerify: true,
 	}
-	c, err := tls.Dial(network, addr, tlsConfig)
+	c, err := tls.DialWithDialer(dialer, network, addr, tlsConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -69,4 +69,8 @@ func Dial(network, addr, publickey string) (net.Conn, error) {
 		return nil, errors.New("invalid key")
 	}
 	return c, nil
+}
+
+func Dial(network, addr, publickey string) (net.Conn, error) {
+	return DialWithDialer(new(net.Dialer), network, addr, publickey)
 }
