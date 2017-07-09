@@ -29,9 +29,12 @@ func TLSConfig(privatekey string) (*tls.Config, error) {
 		PreferServerCipherSuites: true,
 		CipherSuites: []uint16{
 			tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,
-			//tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+			tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
 		},
 		Certificates: []tls.Certificate{*tlsCert},
+		NextProtos: []string{
+			"h2",
+		},
 	}
 	return config, nil
 }
