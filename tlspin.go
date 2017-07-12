@@ -66,6 +66,9 @@ func InitDialWithDialer(dialer *net.Dialer, network, addr string) (conn net.Conn
 	return c, nil, nil
 }
 
+func InitDial(network, addr string) (conn net.Conn, keydigest []byte, err error) {
+	return InitDialWithDialer(new(net.Dialer), network, addr)
+}
 func DialWithDialer(dialer *net.Dialer, network, addr, publickey string) (net.Conn, error) {
 	pk, err := util.DecodeKey(publickey)
 	if err != nil {
