@@ -10,12 +10,10 @@ package tlspin
 import (
 	"crypto/subtle"
 	"crypto/tls"
-	"crypto/x509"
 	"errors"
 	"net"
 
 	util "github.com/nogoegst/tlspin/util"
-	"golang.org/x/crypto/blake2b"
 )
 
 func TLSConfig(privatekey string) (*tls.Config, error) {
@@ -47,35 +45,12 @@ func Listen(network, addr, privatekey string) (net.Listener, error) {
 	return tls.Listen(network, addr, tlsConfig)
 }
 
-func InitDialWithDialer(dialer *net.Dialer, network, addr string) (conn net.Conn, keydigest []byte, err error) {
-	tlsConfig := &tls.Config{
-		InsecureSkipVerify: true,
-	}
-	c, err := tls.DialWithDialer(dialer, network, addr, tlsConfig)
-	if err != nil {
-		return nil, nil, err
-	}
-	connstate := c.ConnectionState()
-	chainlen := len(connstate.PeerCertificates)
-	if chainlen > 0 {
-		peercert := connstate.PeerCertificates[chainlen-1]
-		der, _ := x509.MarshalPKIXPublicKey(peercert.PublicKey)
-		hash := blake2b.Sum256(der)
-		return c, hash[:], nil
-	}
-	return c, nil, nil
-}
-
-func InitDial(network, addr string) (conn net.Conn, keydigest []byte, err error) {
-	return InitDialWithDialer(new(net.Dialer), network, addr)
-}
-
 func DialWithDialer(dialer *net.Dialer, network, addr, publickey string) (net.Conn, error) {
 	pk, err := util.DecodeKey(publickey)
 	if err != nil {
 		return nil, err
 	}
-	c, keydigest, err := InitDialWithDialer(dialer, network, addr)
+	c, keydigest, err := util.InitDialWithDialer(dialer, network, addr)
 	if subtle.ConstantTimeCompare(keydigest, pk) != 1 {
 		return nil, errors.New("invalid key")
 	}
