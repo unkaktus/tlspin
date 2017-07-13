@@ -1,4 +1,4 @@
-package tlspin_http
+package tlspinhttp
 
 import (
 	"net"
@@ -13,4 +13,12 @@ func NewTransport(pubkey string) http.RoundTripper {
 		return tlspin.Dial(network, addr, pubkey)
 	}
 	return t
+}
+
+func ListenAndServe(addr, privatekey string, handler http.Handler) error {
+	l, err := tlspin.Listen("tcp", addr, privatekey)
+	if err != nil {
+		return err
+	}
+	return http.Serve(l, handler)
 }
