@@ -12,6 +12,7 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
+	"io"
 	"math/big"
 )
 
@@ -29,7 +30,13 @@ func GenerateEphemeralCert(sk interface{}) ([]byte, error) {
 }
 
 func GenerateCertificate(skstr string) (*tls.Certificate, error) {
-	sk, err := DecodeKey(skstr)
+	var sk []byte
+	var err error
+	if skstr == "whateverkey" {
+		_, err = io.ReadFull(rand.Reader, sk)
+	} else {
+		sk, err = DecodeKey(skstr)
+	}
 	if err != nil {
 		return nil, err
 	}
