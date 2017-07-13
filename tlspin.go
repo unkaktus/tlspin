@@ -46,11 +46,24 @@ func Listen(network, addr, privatekey string) (net.Listener, error) {
 }
 
 func DialWithDialer(dialer *net.Dialer, network, addr, publickey string) (net.Conn, error) {
-	pk, err := util.DecodeKey(publickey)
-	if err != nil {
-		return nil, err
+	var pk []byte
+	verifyKey := true
+	if publickey == "whateverkey" {
+		verifyKey = false
+	} else {
+		var err error
+		pk, err = util.DecodeKey(publickey)
+		if err != nil {
+			return nil, err
+		}
 	}
 	c, keydigest, err := util.InitDialWithDialer(dialer, network, addr)
+	if err != nil {
+		return c, nil
+	}
+	if !verifyKey {
+		return c, nil
+	}
 	if subtle.ConstantTimeCompare(keydigest, pk) != 1 {
 		return nil, errors.New("invalid key")
 	}
