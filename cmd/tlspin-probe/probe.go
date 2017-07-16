@@ -11,7 +11,6 @@ import (
 	"flag"
 	"log"
 
-	"github.com/nogoegst/tlspin"
 	"github.com/nogoegst/tlspin/util"
 )
 
@@ -21,7 +20,7 @@ func main() {
 		log.Fatalf("address not specified")
 	}
 	addr := flag.Args()[0]
-	conn, keydigest, err := tlspin.InitDial("tcp", addr)
+	conn, keydigest, err := tlspinutil.InitDial("tcp", addr)
 	if err != nil {
 		log.Fatal(err)
 	}
