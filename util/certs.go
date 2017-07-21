@@ -29,30 +29,38 @@ func GenerateEphemeralCert(sk interface{}) ([]byte, error) {
 	return pemCert, nil
 }
 
-func GenerateCertificate(skstr string) (*tls.Certificate, error) {
+func GeneratePEMKeypair(skstr string) (cert []byte, privkey []byte, err error) {
 	var sk []byte
-	var err error
 	if skstr == "whateverkey" {
 		_, err = io.ReadFull(rand.Reader, sk)
 	} else {
 		sk, err = DecodeKey(skstr)
 	}
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	priv, err := privateKey(sk)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	cert, err := GenerateEphemeralCert(priv)
+	cert, err = GenerateEphemeralCert(priv)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	privPEMBlock, err := MarshalPrivateKeyToPEM(priv)
 	if err != nil {
+		return nil, nil, err
+	}
+	privkey = pem.EncodeToMemory(privPEMBlock)
+	return cert, privkey, nil
+}
+
+func GenerateCertificate(skstr string) (*tls.Certificate, error) {
+	cert, privkey, err := GeneratePEMKeypair(skstr)
+	if err != nil {
 		return nil, err
 	}
-	tlsCert, err := tls.X509KeyPair(cert, pem.EncodeToMemory(privPEMBlock))
+	tlsCert, err := tls.X509KeyPair(cert, privkey)
 	if err != nil {
 		return nil, err
 	}
