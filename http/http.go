@@ -22,10 +22,7 @@ func NewTransport(pubkey string) (http.RoundTripper, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = http2.ConfigureTransport(t)
-	if err != nil {
-		return nil, err
-	}
+	http2.ConfigureTransport(t)
 	t.TLSClientConfig.InsecureSkipVerify = true
 	return t, nil
 }
