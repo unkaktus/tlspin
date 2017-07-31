@@ -15,15 +15,23 @@ import (
 	"golang.org/x/net/http2"
 )
 
-func NewTransport(pubkey string) (http.RoundTripper, error) {
-	var err error
-	t := http.DefaultTransport.(*http.Transport)
+func ConfigureTransport(t *http.Transport, pubkey string) (err error) {
 	t.TLSClientConfig, err = tlspin.TLSClientConfig(pubkey)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	http2.ConfigureTransport(t)
 	t.TLSClientConfig.InsecureSkipVerify = true
+	return nil
+}
+
+// XXX DEPRECATED
+func NewTransport(pubkey string) (http.RoundTripper, error) {
+	t := http.DefaultTransport.(*http.Transport)
+	err := ConfigureTransport(t, pubkey)
+	if err != nil {
+		return nil, err
+	}
 	return t, nil
 }
 
