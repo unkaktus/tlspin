@@ -16,9 +16,17 @@ import (
 	"math/big"
 )
 
+func RandomSerialNumber() (*big.Int, error) {
+	return rand.Int(rand.Reader, new(big.Int).Lsh(big.NewInt(1), 128))
+}
+
 func GenerateEphemeralCert(sk interface{}) ([]byte, error) {
+	serialNumber, err := RandomSerialNumber()
+	if err != nil {
+		return nil, err
+	}
 	template := x509.Certificate{
-		SerialNumber: big.NewInt(1),
+		SerialNumber: serialNumber,
 	}
 	der, err := x509.CreateCertificate(rand.Reader, &template, &template, publicKey(sk), sk)
 	if err != nil {
