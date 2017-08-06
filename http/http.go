@@ -25,9 +25,8 @@ func ConfigureTransport(t *http.Transport, pubkey string) (err error) {
 	return nil
 }
 
-// XXX DEPRECATED
 func NewTransport(pubkey string) (http.RoundTripper, error) {
-	t := http.DefaultTransport.(*http.Transport)
+	t := &http.Transport{}
 	err := ConfigureTransport(t, pubkey)
 	if err != nil {
 		return nil, err
