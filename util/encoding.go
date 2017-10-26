@@ -14,6 +14,7 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
+	"io/ioutil"
 )
 
 func MarshalPrivateKeyToPEM(sk interface{}) (*pem.Block, error) {
@@ -44,4 +45,13 @@ func EncodeKey(k []byte) string {
 
 func DecodeKey(data string) ([]byte, error) {
 	return base64.StdEncoding.DecodeString(data)
+}
+
+//LoadKey loads private key from a file in base64-encoded form
+func LoadKeyFromFile(filename string) (string, error) {
+	b, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }

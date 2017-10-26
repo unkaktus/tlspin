@@ -93,3 +93,8 @@ func DialWithDialer(dialer *net.Dialer, network, addr, publickey string) (net.Co
 func Dial(network, addr, publickey string) (net.Conn, error) {
 	return DialWithDialer(new(net.Dialer), network, addr, publickey)
 }
+
+func Keyfile(filename string) string {
+	sk, _ := util.LoadKeyFromFile(filename)
+	return sk
+}
