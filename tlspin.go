@@ -4,6 +4,7 @@
 // and related or neighboring rights to tlspin, using the Creative
 // Commons "CC0" public domain dedication. See LICENSE or
 // <http://creativecommons.org/publicdomain/zero/1.0/> for full details.
+// +build go1.8
 
 package tlspin
 
