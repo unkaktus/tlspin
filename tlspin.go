@@ -18,6 +18,11 @@ import (
 	"golang.org/x/crypto/blake2b"
 )
 
+const (
+	RandomKey = "whateverkey"
+	AnyKey    = "whateverkey"
+)
+
 var commonTLSConfig = &tls.Config{
 	MinVersion:               tls.VersionTLS12,
 	CurvePreferences:         []tls.CurveID{tls.X25519},
@@ -46,7 +51,7 @@ func Listen(network, addr, privatekey string) (net.Listener, error) {
 }
 
 func verifyPeerCert(rawCerts [][]byte, publickey string) error {
-	if publickey == "whateverkey" {
+	if publickey == AnyKey {
 		return nil
 	}
 	pk, err := util.DecodeKey(publickey)
