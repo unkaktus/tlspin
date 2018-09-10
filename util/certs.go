@@ -61,7 +61,7 @@ func GenerateEphemeralCert(sk interface{}) ([]byte, error) {
 
 func GeneratePEMKeypair(skstr string) (cert []byte, privkey []byte, err error) {
 	var sk []byte
-	if skstr == tlspin.RandomKey {
+	if skstr == "whateverkey" {
 		_, err = io.ReadFull(rand.Reader, sk)
 	} else {
 		sk, err = DecodeKey(skstr)
