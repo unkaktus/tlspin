@@ -18,7 +18,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/nogoegst/blake2xb"
 	"golang.org/x/crypto/blake2b"
 )
 
@@ -55,7 +54,7 @@ func GenerateRawPrivateKey(r io.Reader, signalg string) (sk interface{}, err err
 
 func privateKey(sk []byte) (interface{}, error) {
 	signalg := defaultSigningAlg
-	b2xb, err := blake2xb.New(0)
+	b2xb, err := blake2b.NewXOF(blake2b.OutputLengthUnknown, nil)
 	if err != nil {
 		return nil, err
 	}
