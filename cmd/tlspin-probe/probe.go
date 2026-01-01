@@ -11,7 +11,7 @@ import (
 	"flag"
 	"log"
 
-	tlspinutil "github.com/unkaktus/tlspin/util"
+	tlspinutil "github.com/unkaktus/tlspin/v2/util"
 )
 
 func main() {

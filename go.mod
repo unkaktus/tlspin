@@ -1,4 +1,4 @@
-module github.com/unkaktus/tlspin
+module github.com/unkaktus/tlspin/v2
 
 go 1.25.4
 

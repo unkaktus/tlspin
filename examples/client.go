@@ -4,7 +4,7 @@ import (
 	"flag"
 	"log"
 
-	"github.com/unkaktus/tlspin"
+	"github.com/unkaktus/tlspin/v2"
 )
 
 func main() {

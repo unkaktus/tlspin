@@ -16,7 +16,7 @@ import (
 	"errors"
 	"net"
 
-	util "github.com/unkaktus/tlspin/util"
+	util "github.com/unkaktus/tlspin/v2/util"
 	"golang.org/x/crypto/blake2b"
 )
 
