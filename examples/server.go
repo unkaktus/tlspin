@@ -4,7 +4,7 @@ import (
 	"flag"
 	"log"
 
-	"github.com/nogoegst/tlspin"
+	"github.com/unkaktus/tlspin"
 )
 
 func main() {

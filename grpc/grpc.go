@@ -8,7 +8,7 @@
 package tlspingrpc
 
 import (
-	"github.com/nogoegst/tlspin"
+	"github.com/unkaktus/tlspin"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )

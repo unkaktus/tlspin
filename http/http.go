@@ -11,7 +11,7 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	"github.com/nogoegst/tlspin"
+	"github.com/unkaktus/tlspin"
 	"golang.org/x/net/http2"
 )
 

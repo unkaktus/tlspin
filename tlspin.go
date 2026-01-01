@@ -4,6 +4,7 @@
 // and related or neighboring rights to tlspin, using the Creative
 // Commons "CC0" public domain dedication. See LICENSE or
 // <http://creativecommons.org/publicdomain/zero/1.0/> for full details.
+//go:build go1.8
 // +build go1.8
 
 package tlspin
@@ -15,7 +16,7 @@ import (
 	"errors"
 	"net"
 
-	util "github.com/nogoegst/tlspin/util"
+	util "github.com/unkaktus/tlspin/util"
 	"golang.org/x/crypto/blake2b"
 )
 

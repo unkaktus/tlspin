@@ -13,7 +13,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/nogoegst/tlspin/util"
+	tlspinutil "github.com/unkaktus/tlspin/util"
 )
 
 func main() {
